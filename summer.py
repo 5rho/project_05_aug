@@ -75,22 +75,24 @@ def load_data_for_map():
     """pydeck用にデータベースからデータをロードし、元の列名でDataFrameとして返します。"""
     with sqlite3.connect(DB_FILE) as conn:
         df = pd.read_sql_query("SELECT lat, lon, temperature, humidity, discomfort_index FROM measurements", conn)
+    # 欠損値がある行を削除し、データが正しく表示されるようにします。
+    df = df.dropna()
     return df
 
 # アプリの起動時にデータベースを初期化
 init_db()
 
 # Streamlitアプリのタイトルを設定します。
-st.title('みんなで歩かば暑くない！')
+st.title('センサーデータ可視化アプリ')
 st.write('Google マップからコピーした座標を含め、温度、湿度、測定位置のデータを入力し、テーブルと地図に表示します。')
-st.write('データはcsvでダウンロードできます。')
+st.write('データは自動的に保存され、再起動後も保持されます。')
 
 # ---
 # データ入力用のUIコンポーネントを配置します。
 st.header('データの入力')
 
 # Google マップからのコピーを想定した入力ヒント
-st.info('Google マップのピンをクリックすると表示される座標（例: 35.681236, 139.767125）をコピーして、緯度と経度の欄にコピペしてください。')
+st.info('Google マップのピンをクリックすると表示される座標（例: 35.681236, 139.767125）をコピーして、緯度と経度の入力欄にペーストしてください。')
 
 with st.form("input_form"):
     st.write("新しい測定データを入力してください。")
