@@ -34,7 +34,7 @@ if 'temperature' in df.columns and 'humidity' in df.columns:
         ) if pd.isna(row['discomfort_index']) else row['discomfort_index'], 
         axis=1
     )
-    print(ok,おわった)
+    print("ok,おわった")
 else:
     print("temperature または humidity カラムが存在しません。")
 
