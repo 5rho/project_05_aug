@@ -12,13 +12,22 @@ tables = cursor.fetchall()
 print("テーブル一覧:", tables)
 conn.close()
 """
+import os
+db_path = os.path.abspath("sensor_data.db")
+print("接続中のDBパス:", db_path)
+
+conn = sqlite3.connect(db_path)
+cursor = conn.cursor()
+cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+print("DB内テーブル一覧:", cursor.fetchall())
+
 
 
 #データベース確認
 import pandas as pd
 import sqlite3
 
-conn = sqlite3.connect("ysensor_data.db")  # ← 実際のDBファイル名に置き換えてください
+conn = sqlite3.connect("sensor_data.db")  # ← 実際のDBファイル名に置き換えてください
 df = pd.read_sql_query("SELECT * FROM measurements", conn)
 
 print(df.head())  # 中身を確認
