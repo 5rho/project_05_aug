@@ -103,8 +103,8 @@ with st.form("input_form"):
     lat_str = st.text_input('緯度 (例: 35.681236)')
     lon_str = st.text_input('経度 (例: 139.767125)')
     
-    temperature = st.number_input('温度 (℃)', min_value=-50.0, max_value=100.0, format="%.2f", value=25.0)
-    humidity = st.number_input('湿度 (%)', min_value=0.0, max_value=100.0, format="%.2f", value=60.0)
+    temperature = st.number_input('温度 (℃)', min_value=-50.0, max_value=100.0, format="%.1f", value=25.0)
+    humidity = st.number_input('湿度 (%)', min_value=0.0, max_value=100.0, format="%.0f", value=60.0)
     
     # リアルタイムで不快指数を表示
     try:
@@ -143,13 +143,13 @@ with st.form("input_form"):
 # 確認ダイアログの表示
 if st.session_state.save_confirmed:
     st.write("---")
-    st.write("以下の情報を保存しますか？")
+    st.write("入力内容は正確ですか？")
     col1, col2 = st.columns(2)
     with col1:
         if st.button('はい'):
             data_to_save = st.session_state.submitted_data
             save_data(data_to_save['lat'], data_to_save['lon'], data_to_save['temperature'], data_to_save['humidity'], data_to_save['date'], data_to_save['time'], data_to_save['discomfort_index'])
-            st.success('データが追加されました！')
+            st.success('データが保存されました！')
             st.session_state.submitted_data = None
             st.session_state.save_confirmed = False
             st.rerun()
